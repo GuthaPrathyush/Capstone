@@ -1,0 +1,123 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Section formatting
+\titleformat{\section}{\bfseries\large}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries}{\thesubsection}{1em}{}
+
+\begin{document}
+
+% Title Page
+\begin{center}
+    \Large \textbf{Capstone Project Monthly Progress Report}\\[0.5cm]
+    \normalsize
+    
+    \textbf{Month:} April 2026 \\[0.5cm]
+    \textbf{Project Title:} Edge Computing for UAV Networks \\[0.5cm]
+    \textbf{Project ID:} CAPSTONE-2022-23064-3 \\[0.5cm]
+    \textbf{Student Name:} Prathyush Gutha \\
+    \textbf{Student Roll Number:} AP22110011540\\[0.3cm]
+
+    \textbf{Total Number of Students in Team:} 04 \\
+    \textbf{Details of Team Members:}\\
+    Jitendra Sai Prasad Jaladi (Reg No: AP22110011573)\\
+    Lahari Kemburu (Reg No: AP22110011535)\\
+    Prathyush Gutha (Reg No: AP22110011540)\\
+    Harshitha Nalla (Reg No: AP22110011647)\\[0.5cm]
+    
+    \textbf{Supervisor:} Dr. Ramesh Kumar\\[0.5cm]
+    Department of Computer Science and Engineering\\
+    SRM University AP
+\end{center}
+
+\hrule
+\vspace{1cm}
+
+\section{Project Overview}
+This project focuses on enhancing UAV communication efficiency using the MAVLink protocol integrated with Edge Computing and Machine Learning techniques. UAV networks generate large volumes of telemetry, navigation, and control data. During high-traffic scenarios, congestion may occur, resulting in packet loss and reduced Quality of Service (QoS). 
+
+To address this, we developed a unified Reinforcement Learning (RL) framework using Tabular Q-Learning. This controller independently learns both how to schedule different classes of MAVLink priority messages and how many messages to aggregate together into a single transmission frame. This dynamic, simultaneous control of scheduling and aggregation significantly reduces overhead and scales dynamically with changing link qualities, outperforming traditional First-Come-First-Serve (FCFS) approaches.
+
+\section{Work Completed During Last 1 Month}
+\begin{itemize}[leftmargin=*]
+    \item Developed the \textbf{combined\_rl} framework, integrating both scheduling and adaptive packet aggregation simultaneously using Tabular Q-Learning.
+    \item Extracted and processed diverse ns-3 datasets (baseline balanced, energy constrained, high congestion, weak link stress) to train the core RL agent.
+    \item Formulated the aggregation actions (e.g., dynamically choosing an aggregation chunk size $k \in \{1,\dots,5\}$) within the RL agent's combined action space.
+    \item Designed the aggregation efficiency reward function incorporating bandwidth savings, payload size, and real-time link stability metrics to incentivize large payloads only when safe.
+    \item Retuned the aggregation reward penalty structures to maximize overall system throughput while strictly avoiding aggressive packet drops for critical commands.
+    \item Generated publication-grade throughput and packet loss comparison graphs proving Q-Learning superiority over FCFS.
+    \item Updated the research paper with new sections detailing the state space variables, reward function, and formal evaluations of the aggregation module.
+\end{itemize}
+
+\section{Work Planned for this Month}
+\begin{itemize}[leftmargin=*]
+    \item Evaluate direct comparisons between our Combined Tabular Q-Learning approach and earlier standalone baseline models.
+    \item Optimize hyperparameters further for stability across extremely uncooperative link conditions.
+    \item Complete the integration of the final results into the Capstone Final Report and prepare presentation materials.
+\end{itemize}
+
+\section{Progress Status}
+\begin{itemize}[leftmargin=*]
+    \item Combined RL Framework Development: 85\%
+    \item Aggregation Logic and Reward Tuning: 80\%
+    \item Testing, Graphing, and Validation: 75\%
+    \item Research Paper Writing (Aggregation portions): 70\%
+    \item Overall Completion: 75\%
+\end{itemize}
+
+\section{Challenges/Issues Faced}
+\begin{itemize}[leftmargin=*]
+    \item Ensuring the Q-Learning agent does not "over-aggregate" critical packets, which initially resulted in unusually high packet dropping during baseline stable conditions.
+    \item Creating an unbiased comparative evaluation environment to properly measure the RL agent's performance against standard FCFS implementations.
+    \item Synchronizing the dual-action logic so the agent smoothly balances aggregation density with scheduling urgency.
+\end{itemize}
+
+\section{Learning Outcomes}
+\begin{itemize}[leftmargin=*]
+    \item Gained deep insights into \textbf{Tabular Q-Learning} and algorithmic formulations for resource-constrained network optimization.
+    \item Learned how adaptive aggregation at the packet level improves payload efficiency versus static overhead costs.
+    \item Improved skills in producing mathematical methodology sections, research paper drafting (LaTeX), and rendering publication-grade scientific plots using strictly reproducible scripts.
+\end{itemize}
+
+\section{Plan for Next Month}
+\begin{itemize}[leftmargin=*]
+    \item Finalize cross-model baseline comparisons utilizing standalone Q-learning and GNN benchmarks.
+    \item Complete final capstone project documentation, formatting the finalized algorithm sections.
+    \item Prepare for the final project defense and demonstration.
+\end{itemize}
+
+\section{Student Individual Contribution}
+I contributed to the project by researching, designing, and coding the \textbf{message aggregation layer} within the new unified Q-Learning controller. My work focused on establishing the mathematical action space for aggregation scaling and tuning the specific reward signals (link-stability multipliers and loss penalties) so that the agent learns when to safely bucket packets. In addition, I executed dataset evaluations and generated all comparative throughput and packet-loss validation graphs, alongside drafting the aggregation methodology sections in our final LaTeX research paper.
+
+\section*{9. Supervisor’s Observation}
+
+\noindent\textbf{Student Completed:} \rule{3cm}{0.4pt}\% 
+of the planned/assigned task during the last month
+
+\vspace{0.5cm}
+
+\noindent\textbf{Comments:}
+
+\vspace{2cm}
+\noindent\rule{\textwidth}{0.4pt}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Number of times students meet with supervisor (Online or Offline):} \rule{1cm}{0.4pt} \\                                                       
+\noindent\textbf{Satisfied with the Student's Work:} 
+\hspace{0.5cm}  Satisfied 
+\hspace{1cm}  Not Satisfied
+
+\vspace{1.5cm}
+
+\noindent\begin{tabular}{p{7cm} p{6cm}}
+\textbf{Supervisor Signature:} & \rule{5cm}{0.4pt} \\
+\\
+\textbf{Date:} DD/MM/YY
+\end{tabular}
+
+\end{document}

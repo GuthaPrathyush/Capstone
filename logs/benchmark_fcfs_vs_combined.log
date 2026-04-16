@@ -1,0 +1,21 @@
+            dataset              policy  steps  avg_reward  delivered_bytes_total  attempted_bytes_total  delivery_ratio  hold_frac
+test_topology_shift          combined_q  12000   -6.042063                    0.0                    0.0        0.000000   1.000000
+test_topology_shift                hold  12000   -6.042063                    0.0                    0.0        0.000000   1.000000
+test_topology_shift      serve_p2_noagg  12000   -6.053523                    0.0              1197386.0        0.000000   0.000000
+test_topology_shift       serve_p2_agg5  12000   -6.053799                    0.0              2153921.0        0.000000   0.000000
+test_topology_shift serve_best_nonempty  12000   -6.765975                    0.0             22731867.0        0.000000   0.095833
+test_topology_shift          fcfs_proxy  12000   -6.766025                    0.0             18509564.0        0.000000   0.095833
+     test_weak_link          combined_q  12000   -6.169906                    0.0                    0.0        0.000000   1.000000
+     test_weak_link                hold  12000   -6.169906                    0.0                    0.0        0.000000   1.000000
+     test_weak_link      serve_p2_noagg  12000   -6.230855                    0.0              1633999.0        0.000000   0.000000
+     test_weak_link       serve_p2_agg5  12000   -6.231228                    0.0              3243584.0        0.000000   0.000000
+     test_weak_link serve_best_nonempty  12000   -6.971595                    0.0             28916287.0        0.000000   0.001667
+     test_weak_link          fcfs_proxy  12000   -6.971837                    0.0             22422008.0        0.000000   0.001667
+  val_high_mobility          combined_q  12000   -5.708219                    0.0                    0.0        0.000000   1.000000
+  val_high_mobility                hold  12000   -5.708219                    0.0                    0.0        0.000000   1.000000
+  val_high_mobility      serve_p2_noagg  12000   -5.756934                 4579.0              1228245.0        0.003728   0.000000
+  val_high_mobility       serve_p2_agg5  12000   -5.757184                 5312.0              2259738.0        0.002351   0.000000
+  val_high_mobility serve_best_nonempty  12000   -6.506876                59701.0             26547547.0        0.002249   0.000167
+  val_high_mobility          fcfs_proxy  12000   -6.507314                51410.0             21943625.0        0.002343   0.000167
+
+saved: /home/gutha-prathyush/Documents/Capstone/combined_rl/out/benchmark_fcfs_vs_combined.csv

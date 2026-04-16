@@ -1,0 +1,3 @@
+scenario,policy,throughput_pkts_per_step,lost_pkts_per_step,reward
+energy_constrained,FCFS,603.841125,1267.199125,-0.3357423638666824
+energy_constrained,Proposed,772.916375,1183.717875,0.0988182977802676

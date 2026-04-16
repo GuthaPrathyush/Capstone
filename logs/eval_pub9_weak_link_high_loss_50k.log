@@ -1,0 +1,13 @@
+                policy  steps  avg_reward  delivered_bytes_total  \
+0                    q  12000   -6.169906                    0.0   
+1                 hold  12000   -6.169906                    0.0   
+2       serve_p2_noagg  12000   -6.230855                    0.0   
+3        serve_p2_agg5  12000   -6.231228                    0.0   
+4  serve_best_nonempty  12000   -6.971595                    0.0   
+
+   attempted_bytes_total  delivery_ratio  hold_frac  
+0                    0.0             0.0   1.000000  
+1                    0.0             0.0   1.000000  
+2              1633999.0             0.0   0.000000  
+3              3243584.0             0.0   0.000000  
+4             28916287.0             0.0   0.001667  

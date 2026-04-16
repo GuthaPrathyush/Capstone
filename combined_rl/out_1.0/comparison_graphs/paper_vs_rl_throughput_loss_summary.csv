@@ -1,0 +1,3 @@
+policy,steps,throughput_kbps,packet_loss_ratio,avg_input_packet_loss_rate,delivered_bytes_total,attempted_bytes_total
+q,5000,784.3745600000001,0.3458771981207086,0.0,4902341.0,7494527.0
+paper,5000,759.7166400000001,0.20850080479650718,0.0,4748229.0,5999032.0

@@ -1,0 +1,40 @@
+# Virtual environments
+**/venv/
+**/.venv/
+**/env/
+**/.env/
+**/ENV/
+**/venv*/
+
+# Python caches and build artifacts
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.coverage
+**/htmlcov/
+**/build/
+**/dist/
+**/*.egg-info/
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# Datasets and generated outputs
+/datasets/
+**/datasets/
+
+# Logs and temporary files
+tmp/
+temp/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/

@@ -1,0 +1,3 @@
+scenario,policy,throughput_pkts_per_step,lost_pkts_per_step,reward
+weak_link_stress,FCFS,0.0,2404.619625,-5.76787926865869
+weak_link_stress,Proposed,0.0,67.939875,-5.287865954427626

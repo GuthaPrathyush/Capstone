@@ -1,0 +1,6 @@
+episode 30/150 avg_reward_per_step=0.4637
+episode 60/150 avg_reward_per_step=0.4226
+episode 90/150 avg_reward_per_step=0.5706
+episode 120/150 avg_reward_per_step=0.6105
+episode 150/150 avg_reward_per_step=0.5779
+Saved Q-table to out_compact_state/q_table_combined.npz

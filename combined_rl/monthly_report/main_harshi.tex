@@ -1,0 +1,123 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Section formatting
+\titleformat{\section}{\bfseries\large}{\thesection}{1em}{}
+\titleformat{\subsection}{\bfseries}{\thesubsection}{1em}{}
+
+\begin{document}
+
+% Title Page
+\begin{center}
+    \Large \textbf{Capstone Project Monthly Progress Report}\\[0.5cm]
+    \normalsize
+    
+    \textbf{Month:} April 2026 \\[0.5cm]
+    \textbf{Project Title:} Edge Computing for UAV Networks \\[0.5cm]
+    \textbf{Project ID:} CAPSTONE-2022-23064-3 \\[0.5cm]
+    \textbf{Student Name:} Harshitha Nalla \\
+    \textbf{Student Roll Number:} AP22110011647\\[0.3cm]
+
+    \textbf{Total Number of Students in Team:} 04 \\
+    \textbf{Details of Team Members:}\\
+    Jitendra Sai Prasad Jaladi (Reg No: AP22110011573)\\
+    Lahari Kemburu (Reg No: AP22110011535)\\
+    Prathyush Gutha (Reg No: AP22110011540)\\
+    Harshitha Nalla (Reg No: AP22110011647)\\[0.5cm]
+    
+    \textbf{Supervisor:} Dr. Ramesh Kumar\\[0.5cm]
+    Department of Computer Science and Engineering\\
+    SRM University AP
+\end{center}
+
+\hrule
+\vspace{1cm}
+
+\section{Project Overview}
+This project focuses on enhancing UAV communication efficiency using the MAVLink protocol integrated with Edge Computing and Machine Learning techniques. UAV networks generate large volumes of telemetry, navigation, and control data. During high-traffic scenarios, congestion may occur, resulting in packet loss and reduced Quality of Service (QoS). 
+
+To address this, we developed a unified Reinforcement Learning (RL) framework using Tabular Q-Learning. This controller independently learns both how to schedule different classes of MAVLink priority messages and how many messages to aggregate together into a single transmission frame. This dynamic, simultaneous control of scheduling and aggregation significantly reduces overhead and scales dynamically with changing link qualities, outperforming traditional First-Come-First-Serve (FCFS) approaches.
+
+\section{Work Completed During Last 1 Month}
+\begin{itemize}[leftmargin=*]
+    \item Developed the \textbf{combined\_rl} framework, integrating both scheduling and adaptive packet aggregation simultaneously using Tabular Q-Learning.
+    \item Extracted and processed diverse ns-3 datasets (baseline balanced, energy constrained, high congestion, weak link stress) to train the core RL agent.
+    \item Formulated the core scheduling actions (Serve P0, Serve P1, Serve P2, HOLD) within the RL agent's combined action space to properly handle multiple MAVLink priority tiers.
+    \item Engineered the compact 4-variable state space combining total queue length, urgent traffic fraction, deadline pressure, and combined channel qualities to ensure tractable learning.
+    \item Designed scheduling-specific reward penalties, notably heavily incorporating Age of Information (AoI), deadlines, and queue overflow/hold backlogs.
+    \item Generated publication-grade throughput and packet loss comparison graphs proving Q-Learning superiority over FCFS.
+    \item Updated the research paper with new sections (e.g., Section 3.2.1, 4.2) detailing the system state representation, scheduling logic, and overall learning framework.
+\end{itemize}
+
+\section{Work Planned for this Month}
+\begin{itemize}[leftmargin=*]
+    \item Evaluate direct comparisons between our Combined Tabular Q-Learning approach and earlier standalone baseline models.
+    \item Optimize hyperparameters further to maintain scheduling fairness across extremely uncooperative link conditions.
+    \item Complete the integration of the final results into the Capstone Final Report and prepare presentation materials.
+\end{itemize}
+
+\section{Progress Status}
+\begin{itemize}[leftmargin=*]
+    \item Combined RL Framework Development: 85\%
+    \item Scheduling Logic and Reward Tuning: 80\%
+    \item Testing, Graphing, and Validation: 75\%
+    \item Research Paper Writing (Scheduling portions): 70\%
+    \item Overall Completion: 75\%
+\end{itemize}
+
+\section{Challenges/Issues Faced}
+\begin{itemize}[leftmargin=*]
+    \item Debugging the RL agent's tendency to inappropriately "HOLD" packets indefinitely during baseline operations, which required recalibrating the hold-backlog and AoI penalties.
+    \item Determining an elegant way to reduce continuous environment parameters (like raw packet sizes and arrival gaps) down into a compact, discrete tabular state space without losing vital scheduling context.
+    \item Managing integration seamlessly between the Q-Learning scheduler and the real-time congestion models.
+\end{itemize}
+
+\section{Learning Outcomes}
+\begin{itemize}[leftmargin=*]
+    \item Gained practical experience in designing and training \textbf{Tabular Q-Learning} algorithms, specifically structuring discrete state spaces.
+    \item Improved understanding of QoS metrics such as Age of Information (AoI) and dynamic deadline handling in UAV communication architectures.
+    \item Learned proper technical documentation and methodology structuring by drafting rigorous, transparent algorithmic sections in LaTeX format.
+\end{itemize}
+
+\section{Plan for Next Month}
+\begin{itemize}[leftmargin=*]
+    \item Finalize cross-model baseline comparisons utilizing standalone Q-learning and baseline scheduling algorithms.
+    \item Complete final capstone project documentation, formatting the finalized algorithm sections.
+    \item Prepare for the final project defense and demonstration.
+\end{itemize}
+
+\section{Student Individual Contribution}
+I contributed to the project by researching, designing, and coding the \textbf{scheduling layer} of the new unified Q-Learning controller. My focus was primarily on defining the discrete state representations (queue pressure, deadlines) and building the specific scheduling actions targeting different priority tiers (P0, P1, P2) over a HOLD action. I calibrated the Q-Learning reward signals concerning Age of Information (AoI) and deadline fulfillment to ensure critical data is transmitted promptly. I also actively drafted and verified the scheduling formulation sections inside our final LaTeX research paper and evaluated our model's performance via graphing.
+
+\section*{9. Supervisor’s Observation}
+
+\noindent\textbf{Student Completed:} \rule{3cm}{0.4pt}\% 
+of the planned/assigned task during the last month
+
+\vspace{0.5cm}
+
+\noindent\textbf{Comments:}
+
+\vspace{2cm}
+\noindent\rule{\textwidth}{0.4pt}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Number of times students meet with supervisor (Online or Offline):} \rule{1cm}{0.4pt} \\                                                       
+\noindent\textbf{Satisfied with the Student's Work:} 
+\hspace{0.5cm}  Satisfied 
+\hspace{1cm}  Not Satisfied
+
+\vspace{1.5cm}
+
+\noindent\begin{tabular}{p{7cm} p{6cm}}
+\textbf{Supervisor Signature:} & \rule{5cm}{0.4pt} \\
+\\
+\textbf{Date:} DD/MM/YY
+\end{tabular}
+
+\end{document}

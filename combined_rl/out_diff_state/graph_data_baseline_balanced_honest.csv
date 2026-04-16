@@ -1,0 +1,3 @@
+scenario,policy,throughput_pkts_per_step,lost_pkts_per_step,reward
+baseline_balanced,FCFS,979.51025,475.064,1.1366116106706323
+baseline_balanced,Proposed,966.610625,534.586375,1.2233910414413474

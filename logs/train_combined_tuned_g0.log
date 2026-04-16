@@ -1,0 +1,6 @@
+episode 14/70 avg_reward_per_step=-1.7574
+episode 28/70 avg_reward_per_step=-1.7706
+episode 42/70 avg_reward_per_step=-1.8215
+episode 56/70 avg_reward_per_step=-1.7061
+episode 70/70 avg_reward_per_step=-1.7710
+Saved Q-table to /home/gutha-prathyush/Documents/Capstone/combined_rl/out_tuned_g0/q_table_combined.npz

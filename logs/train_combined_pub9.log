@@ -1,0 +1,6 @@
+episode 16/80 avg_reward_per_step=-2.7741
+episode 32/80 avg_reward_per_step=-2.8470
+episode 48/80 avg_reward_per_step=-2.8563
+episode 64/80 avg_reward_per_step=-2.8859
+episode 80/80 avg_reward_per_step=-2.8401
+Saved Q-table to /home/gutha-prathyush/Documents/Capstone/combined_rl/out/q_table_combined.npz

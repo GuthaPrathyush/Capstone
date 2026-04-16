@@ -1,0 +1,19 @@
+             dataset              policy  steps  avg_reward  delivered_bytes_total  attempted_bytes_total  delivery_ratio  hold_frac
+rt_baseline_seed3000 serve_best_nonempty   3000    1.081356              3033865.0              4454169.0        0.681129   0.209000
+rt_baseline_seed3000          fcfs_proxy   3000    1.069629              2943769.0              3700266.0        0.795556   0.209000
+rt_baseline_seed3000          combined_q   3000    0.504872              1562263.0              4007133.0        0.389871   0.229333
+rt_baseline_seed3000                hold   3000   -0.192439                    0.0                    0.0        0.000000   1.000000
+  rt_energy_seed3001 serve_best_nonempty   3000    1.133834              4016131.0              5774513.0        0.695493   0.000000
+  rt_energy_seed3001          fcfs_proxy   3000    1.106263              3867005.0              4900320.0        0.789133   0.000000
+  rt_energy_seed3001          combined_q   3000    0.541992              2905824.0              7753670.0        0.374768   0.143333
+  rt_energy_seed3001                hold   3000   -1.087001                    0.0                    0.0        0.000000   1.000000
+rt_highcong_seed3002 serve_best_nonempty   3000   -0.754934              3178942.0              6738004.0        0.471793   0.000000
+rt_highcong_seed3002          fcfs_proxy   3000   -0.781673              3053874.0              5744987.0        0.531572   0.000000
+rt_highcong_seed3002          combined_q   3000   -1.135361              2029454.0              5978456.0        0.339461   0.098667
+rt_highcong_seed3002                hold   3000   -2.410110                    0.0                    0.0        0.000000   1.000000
+      test_weak_link          combined_q   3000   -5.273130                    0.0                    0.0        0.000000   1.000000
+      test_weak_link                hold   3000   -5.273130                    0.0                    0.0        0.000000   1.000000
+      test_weak_link serve_best_nonempty   3000   -5.391807                    0.0              7222189.0        0.000000   0.002333
+      test_weak_link          fcfs_proxy   3000   -5.392685                    0.0              5582578.0        0.000000   0.002333
+
+saved: /home/gutha-prathyush/Documents/Capstone/combined_rl/out_tuned/benchmark_fcfs_vs_combined_tuned_quick.csv

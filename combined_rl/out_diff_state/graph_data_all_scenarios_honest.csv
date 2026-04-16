@@ -1,0 +1,9 @@
+scenario,policy,throughput_pkts_per_step,lost_pkts_per_step,reward
+baseline_balanced,FCFS,979.51025,475.064,1.1366116106706323
+baseline_balanced,Proposed,966.610625,534.586375,1.2233910414413474
+energy_constrained,FCFS,603.841125,1267.199125,-0.3407421891882181
+energy_constrained,Proposed,480.2465,262.187,-0.4709054182427116
+high_congestion,FCFS,397.36775,1813.4425,-3.9082192283327175
+high_congestion,Proposed,320.688625,92.417875,-3.731906446508501
+weak_link_stress,FCFS,0.0,2404.619625,-5.76787926865869
+weak_link_stress,Proposed,0.0,67.939875,-5.287865954427626

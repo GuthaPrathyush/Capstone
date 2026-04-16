@@ -1,0 +1,3 @@
+scenario,policy,throughput_pkts_per_step,lost_pkts_per_step
+weak_link_stress,FCFS,0.0,1.0
+weak_link_stress,Proposed,0.0,1.0

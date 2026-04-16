@@ -1,0 +1,3 @@
+scenario,policy,throughput_pkts_per_step,lost_pkts_per_step
+high_congestion,FCFS,3.9736775,0.8202614855797778
+high_congestion,Proposed,4.1488700000000005,0.4338663659655557

@@ -1,0 +1,5 @@
+scenario,RL_avg_reward,FCFS_avg_reward,reward_improvement,RL_delivered_bytes,FCFS_delivered_bytes,RL_delivery_ratio,FCFS_delivery_ratio,RL_hold_frac
+baseline_balanced,1.171,1.0474,0.1235,8388062,7836082,0.3794,0.6734,0.0001
+energy_constrained,0.0988,-0.3357,0.4346,6183331,4830729,0.395,0.3227,0.0088
+high_congestion,-3.2636,-3.7528,0.4892,3319096,3178942,0.5661,0.1797,0.0019
+weak_link_stress,-4.8483,-5.3986,0.5503,0,0,0.0,0.0,0.0484
