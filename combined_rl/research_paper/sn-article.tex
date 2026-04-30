@@ -161,6 +161,12 @@ In congested network scenarios, packet dropping alone is not an effective soluti
  
 This packet loss can lead to poor Quality of Service (QoS).So these limitations motivates to work and propose adaptive rate control algorithm in UAV Communicaiton.
 
+
+
+
+
+
+
 \subsection{ Problem Statement }
 In UAANET, there are different types of messages like command messages, telementry messages, sensor data packets, Location update messages etc. these are being transmitted by static transmission rates.
     But, in some cases congestion can occur in the UAV Network where the incoming messages are more when compared to the bandwidth of the network and as a result while transmitting the message packets, few will get dropped. As a result the QoS will get effected and failure of task and missions.
@@ -177,7 +183,27 @@ Key Contributions are:\\
     \hspace*{2em}1. Classificaiton of messages using Machine Learning Model and prioritising them.\\
     \hspace*{2em}2. Heuristic rate aware congestion control Algorithm.\\
     \hspace*{2em}3. Message scheduling Algorithm in queue before transmission.\\
-    
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\columnwidth]{fifomodel.png}
+\caption{FIFO based Network Model}
+\label{fig:my_image}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\columnwidth]{MLBasedHeuristicModel.drawio.png}
+\caption{ML based Heuristic Network Model}
+\label{fig:my_image}
+\end{figure}
+
+
+
+
+
 \subsection{ Organization of the Paper }
 
 
@@ -253,6 +279,13 @@ Therefore, there is a clear need for an integrated framework that (i) classifies
 
 The complete framework integrates three functional blocks: MAVLink message generation, ML-based semantic prioritization, and RL-based combined scheduling and aggregation. Figure~\ref{fig:system_architecture_flow} illustrates the data flow and decision pipeline.
 
+
+
+This system architecture has been designed to ease the adaptive, congestion-receptive communication in Unmanned Aerial Vehicle Ad Hoc Networks (UAANETs) and be compatible with MAVLink-based UAV systems.
+The architecture is modular and separates the message generation, message classification, congestion estimation and adaptive rate control.
+This form of segregation also allows learning based elements to be flexibly integrated without need of altering the underlying MAVLink protocol.
+This system operates in a distributed manner and is able to adapt fast to the dynamism of the network conditions a UAV communication environment often experiences.\\
+
 \begin{figure*}[t]
 \centering
 \begin{tikzpicture}[
@@ -262,70 +295,48 @@ The complete framework integrates three functional blocks: MAVLink message gener
   arrow/.style={->, thick, >=latex},
   label/.style={font=\small}
 ]
-
 % Layer 1: Message Generation
-\node[box, fill=blue!20] (gen) at (0, 8) {Message Generation\\UAVs + GCS};
-
+\node[box] (gen) at (0, 8) {Message Generation\\UAVs + GCS};
 % Messages flow
 \node[label] (msg1) at (0, 7) {Telemetry, Commands,\\Navigation, Payload};
 
 % Layer 2: ML-Based Prioritization
-\node[box, fill=green!20] (ml) at (0, 5.5) {ML Prioritizer\\(Random Forest)};
+\node[box] (ml) at (0, 5.5) {ML Prioritizer\\(Random Forest)};
+\draw[arrow] (gen) -- (ml);
 \node[label, below=0.2cm of ml] {Feature Extraction:\\msg\_type, payload, freq, SNR, mission\_phase};
-
 % Single priority queue
-\node[box, fill=yellow!20] (q) at (0, 3.5) {Priority Queue\\(Priority-aware)};
-
+\node[box] (q) at (0, 3.5) {Priority Queue\\(Priority-aware)};
 % Draw arrow from ML to queue
 \draw[arrow] (ml) -- (q);
-
 % Layer 3: State Discretization
-\node[box, fill=purple!20] (state) at (0, 1.5) {State Discretization\\$\mathbf{s}_t = (q_{\text{len}}, u_{\text{frac}}, d_{\text{urgency}}, c_{\text{quality}})$};
-
+\node[box] (state) at (0, 1.5) {State Discretization\\$\mathbf{s}_t = (q_{\text{len}}, u_{\text{frac}}, d_{\text{urgency}}, c_{\text{quality}})$};
 % Draw arrow from queue to state
 \draw[arrow] (q) -- (state);
-
 % Layer 4: RL Agent
-\node[box, fill=red!20] (rl) at (0, -0.5) {RL Agent (Q-Learning)\\Look up $\mathbf{Q}(s_t, \cdot)$, Select $a_t^*$};
-
+\node[box] (rl) at (0, -0.5) {RL Agent (Q-Learning)\\Look up $\mathbf{Q}(s_t, \cdot)$, Select $a_t^*$};
 % Arrow from state to RL
 \draw[arrow] (state) -- (rl);
-
 % Add note showing action decoding
 \node[below=0.5cm of rl, align=center, font=\small] {Action: $a_t = (\text{serve queue}, k_{\text{agg}})$\\e.g., Serve queue, Aggregate 3};
-
 % Layer 5: Transmission
-\node[box, fill=orange!20] (tx) at (0, -3) {Transmission Execution\\Aggregate, Encode, Transmit via WiFi Link};
-
+\node[box] (tx) at (0, -3) {Transmission Execution\\Aggregate, Encode, Transmit};
 % Arrow from RL to TX
 \draw[arrow] (rl) -- (tx);
-
 % Feedback loop
-\node[box, fill=pink!20] (reward) at (4, -1.5) {Reward Computation\\(Multi-objective)};
+\node[box] (reward) at (4, -1.5) {Reward Computation\\(Multi-objective)};
 \draw[arrow] (tx) -- (5, -2.2) -- (reward);
-
 % Update Q-table (dotted arrow back)
-\draw[arrow, dashed] (reward) -- (5, 1) -- (0.5, 1) -- (rl) node[midway, right, font=\small] {Update $\mathbf{Q}$ (offline)};
-
+\draw[arrow, dashed] (reward) -- (5, 1) -- (0.5, 1) -- (rl) node[midway, right, font=\small] {Update $\mathbf{Q}$};
 % Wireless channel
-\node[box, fill=gray!20] (channel) at (0, -5) {Wireless Channel\\(Variable SNR, Loss, Stability)};
+\node[box] (channel) at (0, -5) {Wireless Channel\\(Variable SNR, Loss, Stability)};
 \draw[arrow] (tx) -- (channel);
-
 % Receiver
-\node[box, fill=gray!20] (rx) at (0, -7) {Receiver (GCS / UAV)\\Packet Arrives or Drops};
+\node[box] (rx) at (0, -7) {Receiver (GCS / UAV)\\Packet Arrives or Drops};
 \draw[arrow] (channel) -- (rx);
-
 \end{tikzpicture}
 \caption{End-to-End Architecture: ML-Based Prioritization + RL-Based Scheduling and Aggregation Pipeline.}
 \label{fig:system_architecture_flow}
 \end{figure*}
-
-This system architecture has been designed to ease the adaptive, congestion-receptive communication in Unmanned Aerial Vehicle Ad Hoc Networks (UAANETs) and be compatible with MAVLink-based UAV systems.
-The architecture is modular and separates the message generation, message classification, congestion estimation and adaptive rate control.
-This form of segregation also allows learning based elements to be flexibly integrated without need of altering the underlying MAVLink protocol.
-This system operates in a distributed manner and is able to adapt fast to the dynamism of the network conditions a UAV communication environment often experiences.\\
-
-
 
 Different streams of MAVLink messages are produced simultaneously from both UAVs and ground stations, such as command and control messages, telemetry messages, navigation messages and payload sensor messages. These messages vary in a great way with regard to importance, urgency and toleration of delay. In order to deal with such heterogeneity, the architecture proposes a message classification module, which is formed by Machine Learning, that will classify every message to one of the priority classes low, medium, and high according to the message attributes including the type, content, and operational relevance. ML model is trained offline on curated data sets.\\
 
@@ -348,6 +359,74 @@ Each MAVLink message is treated as an independent packet characterized by its me
 Network congestion is modeled as a condition where the incoming message arrival rate exceeds the available communication capacity. Each UAV monitors local network indicators such as packet loss ratio, queue occupancy, and effective bandwidth utilization to assess the current congestion level. The estimated congestion level is calculated and then used by the adaptive rate control module to regulate the transmission rates of different message priority classes, ensuring reliable communication under dynamic network conditions.
 
 
+\begin{figure}[h]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+    every node/.style={font=\small},
+    box/.style={draw, rectangle, rounded corners=3pt, minimum width=4cm, minimum height=0.8cm, align=center},
+    arr/.style={->, >=stealth, thick}
+]
+
+% Headers
+\node[box] (msg) at (0, 0) {\textbf{MAVLink Message}};
+\node[box] (ml)  at (5, 0) {\textbf{ML Classifier (UAV)}};
+\node[box] (out) at (10, 0) {\textbf{Priority Output}};
+
+% Lifelines (ONLY dotted lines now)
+\draw[dashed] (0,  -0.4) -- (0,  -10.5);
+\draw[dashed] (5,  -0.4) -- (5,  -10.5);
+\draw[dashed] (10, -0.4) -- (10, -10.5);
+
+% ❌ Removed this line:
+% \draw[fill=white] (4.85, -0.4) rectangle (5.15, -8.5);
+
+% Incoming message
+\node[box] (incoming) at (0, -1.2)
+{\textbf{Incoming message $m_i$}\\{\footnotesize Any MAVLink message type}};
+
+% Arrow
+\draw[arr] (incoming.east) -- ++(0.5,0) |- (5, -1.5)
+node[midway, above, font=\footnotesize] {send $m_i$};
+
+% Feature Extraction
+\node[box, minimum width=5.5cm] (feat) at (5, -2.5)
+{\textbf{Feature Extraction}\\
+{\footnotesize $\mathbf{x}_i = [m_t, s, p_s, f_r, c, b, m_p, e]$}\\
+{\footnotesize type, source, size, frequency, congestion}\\
+{\footnotesize battery, mission phase, emergency}};
+
+\draw[arr] (5, -1.8) -- (feat.north);
+
+% Random Forest
+\node[box, minimum width=5.5cm] (rf) at (5, -4.5)
+{\textbf{Random Forest Inference}\\
+{\footnotesize $\pi_i = f(\mathbf{x}_i)$}\\
+{\footnotesize Complexity: $\mathcal{O}(T \cdot d)$}};
+
+\draw[arr] (feat.south) -- (rf.north);
+
+% Label
+\node[box, minimum width=5.5cm] (label) at (5, -6.2)
+{\textbf{Priority Label}\\
+{\footnotesize $\pi_i \in \{HIGH, MEDIUM, LOW\}$}};
+
+\draw[arr] (rf.south) -- (label.north);
+
+% Outputs
+\node[box] (high) at (10, -5.2) {\textbf{HIGH} $W=0.9$};
+\node[box] (med)  at (10, -6.4) {\textbf{MEDIUM} $W=0.6$};
+\node[box] (low)  at (10, -7.6) {\textbf{LOW} $W=0.3$};
+
+\draw[arr] (label.east) -- (high.west);
+\draw[arr] (label.east) -- (med.west);
+\draw[arr] (label.east) -- (low.west);
+
+\end{tikzpicture}%
+}
+\caption{ML model for message classification}
+\label{fig:ml_classifier}
+\end{figure}
 
 \section{ Problem Formulation }
 
@@ -1029,19 +1108,20 @@ Memory footprint is similarly modest: the Q-table with $\approx 2744$ states and
 
 \subsection{ Summary of Findings }
 
-This paper presents a comprehensive framework for adaptive message prioritization and congestion control in MAVLink-enabled UAV communication systems. The framework combines three complementary techniques:
+
+This paper presents an algorithm for adaptive rate control algorithm to avoid congestion in UAVs. this algorithm combines different techniques like: 
 
 \begin{enumerate}
-    \item \textbf{Machine Learning-Based Prioritization:} A Random Forest classifier semantically classifies messages into priority tiers (high, medium, low) based on message attributes, operational context, and system state. The classifier achieves 97.60\% accuracy with perfect classification of high-priority safety-critical messages.
+    \item \textbf{ML based Classification of messages:} A Random Forest classifier semantically classifies messages into priority tiers (high, medium, low) based on message attributes, operational context, and system state. The classifier achieves 97.60\% accuracy with perfect classification of high-priority safety-critical messages.
     
-    \item \textbf{Congestion-Aware Rate Control:} A heuristic rate adaptation mechanism dynamically reduces the transmission rate of low-priority messages when network congestion exceeds predefined thresholds, while protecting high-priority traffic. This prevents buffer overflow and reduces packet loss without modifying the underlying MAVLink protocol.
+    \item \textbf{Heuristic rate control based on congestion:} A heuristic rate adaptation mechanism dynamically reduces the transmission rate of low-priority messages when network congestion exceeds predefined thresholds, while protecting high-priority traffic. This prevents buffer overflow and reduces packet loss without modifying the underlying MAVLink protocol.
     
-    \item \textbf{Reinforcement Learning-Based Combined Scheduling and Aggregation:} A tabular Q-learning agent learns an optimal policy for jointly selecting which priority queue to serve and how many packets to aggregate in a single transmission. The agent observes a discretized state representation of queue depth, priority mix, deadline urgency, and channel quality, and selects from 20 possible actions.
+    \item \textbf{Scheduling and Aggregation using Reinforcement Learning:} A tabular Q-learning agent learns an optimal policy for jointly selecting which priority queue to serve and how many packets to aggregate in a single transmission. The agent observes a discretized state representation of queue depth, priority mix, deadline urgency, and channel quality, and selects from 20 possible actions.
 \end{enumerate}
 
-Experimental evaluation over a 500-step ns-3 simulation dataset demonstrates that the proposed framework achieves a Packet Delivery Ratio of 93.75\%, representing a 23.01 percentage point improvement over a FIFO baseline (70.74\%). Packet loss is reduced by 84.8\%, from 3,721.6 dropped packets (FIFO) to 567 dropped packets (proposed algorithm). These gains are accomplished while maintaining computational efficiency ($\mathcal{O}(K \cdot T \cdot d)$ where $K$ is message count, $T$ is number of trees, and $d$ is tree depth) and backward compatibility with the MAVLink protocol.
+Experimental evaluation over a 500-step dataset demonstrates that the proposed framework achieves a Packet Delivery Ratio of 93.75\%, representing a 23.01 percentage point improvement over a FIFO baseline (70.74\%). Packet loss is reduced by 84.8\%, from 3,721.6 dropped packets (FIFO) to 567 dropped packets (proposed algorithm). These gains are accomplished while maintaining computational efficiency.
 
-The framework is practical for real-world deployment: it requires minimal computational resources (< 220 KB memory, < 1 ms latency per message), can be implemented as an application-layer middleware, and does not demand modifications to flight stacks or wireless hardware. The proposed system is particularly beneficial for high-congestion scenarios, degraded link conditions, and energy-constrained missions—all common challenges in practical UAV operations.
+The framework is practical for real-world deployment: it requires minimal computational resources ( less than 220 KB memory, less than 1 ms latency per message), can be implemented as an application-layer middleware, and does not demand modifications to flight stacks or wireless hardware. The proposed system is particularly beneficial for high-congestion scenarios, degraded link conditions, and energy-constrained missions—all common challenges in practical UAV operations.
 
 \subsection{ Future Research Directions }
 

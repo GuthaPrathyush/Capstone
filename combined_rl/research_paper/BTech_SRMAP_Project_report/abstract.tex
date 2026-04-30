@@ -1,0 +1,23 @@
+
+\newpage
+\addcontentsline{toc}{chapter}{\MakeUppercase{Abstract}}
+\thispagestyle{empty}
+%
+\begin{spacing}{1.5}
+%
+\chapter*{Abstract}
+%%
+%% Here enter abstract. No figures, sketches, tables shall be here.
+%%
+
+
+Unmanned Aerial Vehicles (UAVs) rely on the MAVLink protocol for continuous exchange of control commands, telemetry, and mission data between onboard systems and ground control stations. Under real-time operating conditions, a large number of MAVLink messages are generated every second, which can lead to network congestion, increased latency, packet loss, and delayed delivery of safety-critical messages in bandwidth-constrained environments.
+
+This paper presents a combined framework that integrates machine learning-based message prioritization, congestion-aware rate control, and reinforcement learning-based scheduling and aggregation for MAVLink-enabled UAV communication systems. A lightweight Random Forest model is deployed at the UAV edge to dynamically assign priority levels to MAVLink messages based on a feature vector $\mathbf{x} = [m_t, p_s, f_r, s_u, c_m]$, where $m_t$ denotes message type, $p_s$ the payload size, $f_r$ the transmission frequency, $s_u$ the system state, and $c_m$ the mission context. The classifier learns a mapping $f(\mathbf{x}) \rightarrow \pi$, where $\pi$ represents the inferred priority class.
+
+To address congestion and transmission efficiency jointly, the framework combines priority-aware queue management with a closed-loop RL policy that selects scheduling actions and packet aggregation levels from observed network states. The learned policy operates with feedback from the traffic environment, enabling adaptive decisions under balanced, energy-constrained, and high-congestion scenarios. The proposed approach preserves MAVLink backward compatibility by avoiding modifications to the message format or additional protocol overhead.
+
+Experimental evaluation shows that the best RL checkpoint maintains near-parity throughput with the paper baseline while substantially reducing packet loss, and the ML prioritization stage achieves high classification accuracy for critical messages. The results demonstrate that integrating semantic prioritization, adaptive congestion control, and learned scheduling improves the robustness, reliability, and real-time performance of UAV communication systems.
+
+%%
+\end{spacing}

@@ -1,0 +1,581 @@
+\chapter{IMPLEMENTATION}
+
+\section{Introduction}
+
+This chapter describes the implementation details of the proposed 
+Machine Learning-based message prioritization and congestion-aware 
+rate control system for UAV communication networks. The implementation 
+focuses on developing a simulation-based environment to evaluate the 
+performance of the proposed communication model.
+
+The system is implemented using software-based tools that simulate 
+message transmission, congestion monitoring, and priority-based 
+scheduling in UAV communication systems. The implementation includes 
+message generation, feature extraction, machine learning model 
+training, congestion monitoring, adaptive rate control, and message 
+scheduling.
+
+The purpose of the implementation phase is to convert the designed 
+methodology into a functional system that can be tested and analyzed 
+under different network conditions.
+
+%-------------------------------------------------------------
+
+\section{Implementation Environment}
+
+The proposed system is implemented using a software-based simulation 
+environment that supports Machine Learning and network modeling. 
+The tools and technologies used during implementation are selected 
+based on their efficiency, reliability, and compatibility with 
+communication system modeling.
+
+The implementation environment consists of the following components:
+
+\begin{itemize}
+
+\item Programming Language: Python
+
+\item Development Platform: Python IDE
+
+\item Machine Learning Library: Scikit-learn
+
+\item Data Processing Library: NumPy and Pandas
+
+\item Visualization Library: Matplotlib
+
+
+\end{itemize}
+
+Python is used as the primary programming language due to its 
+simplicity and strong support for Machine Learning libraries. 
+Scikit-learn is used for implementing the Random Forest classifier 
+used in message prioritization.
+
+%-------------------------------------------------------------
+
+\section{Dataset Preparation}
+
+Dataset preparation is an important step in the implementation of 
+the Machine Learning-based classification system. The dataset 
+contains MAVLink message attributes that represent communication 
+behavior in UAV networks.
+
+Each dataset entry represents a message and includes several 
+features that influence its priority level. The dataset is synthetic and is 
+prepared by combining multiple datasets from kaggle.
+
+The major features included in the dataset are:
+
+\begin{itemize}
+
+\item Message Type
+
+\item Payload Size
+
+\item Transmission Frequency
+
+\item System Status
+
+\item Mission Phase
+
+\item Emergency Flag
+
+\end{itemize}
+
+The dataset is divided into training and testing sets to evaluate 
+the performance of the Machine Learning model. Typically, 
+approximately 75\% of the data is used for training, and 
+25\% is used for testing.
+
+%-------------------------------------------------------------
+
+\section{Machine Learning Model Implementation}
+
+The Machine Learning model used in this project is based on the 
+Random Forest classification algorithm. The model is implemented 
+using the Scikit-learn library.
+
+The implementation process includes the following steps:
+
+\begin{itemize}
+\item Data preprocessing and cleaning
+\item Feature selection
+\item Training the Random Forest classifier
+\item Testing the trained model
+\item Evaluating classification performance
+\end{itemize}
+
+Data preprocessing involves removing incomplete entries and 
+normalizing feature values. Feature selection ensures that only 
+relevant attributes are used during classification.
+
+Each message $m_i \in \mathcal{M}$ is represented using a 
+feature vector that captures its key operational attributes:
+
+\begin{equation}
+\mathbf{x}_i = [m_t,\ s,\ p_s,\ f_r,\ c,\ b,\ m_p,\ e]
+\label{eq:feature_vector}
+\end{equation}
+
+where $m_t$ represents the message type, $s$ denotes the source 
+node, $p_s$ is the payload size, $f_r$ is the transmission 
+frequency, $c$ represents the current congestion level, $b$ 
+denotes the battery state, $m_p$ indicates the mission phase, 
+and $e$ is a binary indicator representing emergency conditions.
+
+A machine learning model is employed to classify each message 
+into a priority class using the mapping function:
+
+\begin{equation}
+\pi_i = f(\mathbf{x}_i), \quad \pi_i \in \{H, M, L\}
+\label{eq:priority_mapping}
+\end{equation}
+
+where $H$, $M$, and $L$ correspond to high, medium, and low 
+priority levels, respectively. This classification introduces 
+semantic awareness into the communication process, enabling 
+differentiated handling of messages based on their operational 
+significance.
+
+\begin{algorithm}[H]
+\caption{Machine Learning-Based Message Priority Classification}
+\begin{algorithmic}[1]
+\State \textbf{Input:} MAVLink message stream $\mathcal{M}$
+\State \textbf{Output:} Priority label $\pi_i$ for each message
+
+\For{each message $m_i \in \mathcal{M}$}
+    \State Extract feature vector $\mathbf{x}_i$ (Eq.~(\ref{eq:feature_vector}))
+    \State Predict priority $\pi_i \leftarrow f(\mathbf{x}_i)$ (Eq.~(\ref{eq:priority_mapping}))
+    \State Assign $\pi_i \in \{H, M, L\}$
+\EndFor
+
+\end{algorithmic}
+\end{algorithm}
+
+After preprocessing, the Random Forest model is trained using 
+the training dataset. The trained model is then tested using 
+the testing dataset to evaluate classification accuracy.
+
+Performance metrics such as accuracy, precision, recall, and 
+F1-score are calculated to measure model effectiveness 
+\cite{breiman2001randomforest}.
+
+For the combined scheduling and aggregation model, the trained policy 
+is not used in isolation. Instead, it is embedded inside a closed-loop 
+execution pipeline that repeatedly exchanges state and action between 
+the policy and the simulation engine. This is the implementation basis 
+for the reinforcement learning extension over the static scheduling 
+baseline.
+
+%-------------------------------------------------------------
+
+
+
+
+
+
+%-------------------------------------------------------------
+\section{Congestion Monitoring Implementation}
+
+The congestion monitoring module is implemented to observe network 
+conditions during message transmission. This module continuously 
+monitors queue length, packet loss rate, and bandwidth usage.
+
+The congestion level is quantified using a normalized congestion 
+factor $c \in [0, 1]$, defined as:
+
+\begin{equation}
+c = \frac{Q_{current}}{Q_{max}}
+\label{eq:congestion_factor}
+\end{equation}
+
+\noindent where $Q_{current}$ denotes the current queue occupancy 
+and $Q_{max}$ represents the maximum queue capacity. When $c$ 
+exceeds the predefined congestion threshold $c_{th}$, the system 
+identifies network congestion and triggers adaptive rate control 
+actions.
+
+The congestion estimation logic is implemented using conditional 
+checks and threshold-based monitoring techniques. The congestion 
+state $\mathcal{C}$ is determined as:
+
+\begin{equation}
+\mathcal{C} = 
+\begin{cases}
+\text{Congested} & \text{if } c > c_{th} \\
+\text{Normal}    & \text{if } c \leq c_{th}
+\end{cases}
+\label{eq:congestion_state}
+\end{equation}
+
+These mechanisms allow the system to dynamically respond to 
+changing network conditions in real time.
+
+\begin{algorithm}[H]
+\caption{Congestion Level Estimation}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Queue state $Q_{current}$, $Q_{max}$, threshold $c_{th}$
+\State \textbf{Output:} Congestion factor $c$, Congestion state $\mathcal{C}$
+
+\State Compute $c \leftarrow \dfrac{Q_{current}}{Q_{max}}$
+
+\If{$c > c_{th}$}
+    \State $\mathcal{C} \leftarrow \text{Congested}$
+    \State Trigger adaptive rate control
+\Else
+    \State $\mathcal{C} \leftarrow \text{Normal}$
+    \State Maintain current transmission rates
+\EndIf
+
+\State \Return $c$
+
+\end{algorithmic}
+\end{algorithm}
+
+%-------------------------------------------------------------
+\section{Adaptive Rate Control Implementation}
+
+The adaptive rate control module regulates the message transmission 
+rate based on congestion level and message priority. Each message 
+$m_i$ is assigned a priority weight $W_i$ according to its 
+classified priority label $\pi_i \in \{H, M, L\}$, defined as:
+
+\begin{equation}
+W_i = 
+\begin{cases}
+W_H & \text{if } \pi_i = H \\
+W_M & \text{if } \pi_i = M \\
+W_L & \text{if } \pi_i = L
+\end{cases}
+\label{eq:priority_weight}
+\end{equation}
+
+\noindent where $W_H > W_M > W_L$, ensuring higher weights are 
+assigned to more critical messages.
+
+The adjusted transmission rate $R_i^{new}$ for each message is 
+computed using the priority-aware rate control function:
+
+\begin{equation}
+R_i^{new} = 
+\begin{cases}
+R_i^{base} & \text{if } c \leq c_{th} \\
+R_i^{base} \cdot \left(1 - c\left(1 - W_i\right)\right) & \text{if } c > c_{th}
+\end{cases}
+\label{eq:rate_control}
+\end{equation}
+
+\noindent where $R_i^{base}$ is the baseline transmission rate 
+of message $m_i$. Under low congestion ($c \leq c_{th}$), messages 
+are transmitted at their base rates. When congestion exceeds the 
+threshold, transmission rates are reduced proportionally based on 
+priority weight, ensuring high-priority messages are preserved 
+while non-critical traffic is progressively throttled.
+
+To guarantee reliable delivery of emergency messages, a minimum 
+transmission rate constraint is enforced:
+
+\begin{equation}
+R_i^{new} \geq R_{min}, \quad \forall \, m_i \text{ with } \pi_i = H
+\label{eq:min_rate}
+\end{equation}
+
+Priority-based message scheduling is implemented using multiple 
+queues $\mathcal{Q}_H$, $\mathcal{Q}_M$, and $\mathcal{Q}_L$ 
+that store messages according to their priority levels. The 
+aggregate bandwidth constraint is enforced as:
+
+\begin{equation}
+\sum_{i=1}^{N} R_i^{new} \leq B_{available}
+\label{eq:bandwidth_constraint}
+\end{equation}
+
+\noindent where $B_{available}$ is the total available channel 
+bandwidth and $N$ is the total number of active messages.
+
+Messages are inserted into the appropriate queue based on 
+classification results. The scheduler processes messages in 
+order of priority, ensuring that critical messages are 
+transmitted first. Queue management operations such as 
+insertion, deletion, and message selection are implemented 
+using standard data structures.
+
+The priority queue scheduling policy is expressed as:
+
+\begin{equation}
+\mathcal{Q}_{schedule} = \mathcal{Q}_H \succ \mathcal{Q}_M \succ \mathcal{Q}_L
+\label{eq:priority_queue}
+\end{equation}
+
+This scheduling mechanism improves Quality of Service (QoS) by 
+reducing transmission delays for critical messages \cite{rahman2022uavqos}.
+
+\begin{algorithm}[H]
+\caption{Priority-Aware Congestion Control and Scheduling}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Labeled message stream $\mathcal{M}$ with 
+       priority $\pi_i$, congestion factor $c$, threshold $c_{th}$
+\State \textbf{Output:} Priority-aware updated transmission rate
+
+\For{each message $m_i \in \mathcal{M}$}
+    \State Assign weight $W_i$ based on Eq.~(\ref{eq:priority_weight})
+    \State Estimate congestion factor $c$ (Eq.~(\ref{eq:congestion_factor}))
+    
+    \If{$c \leq c_{th}$}
+        \State $R_i^{new} \leftarrow R_i^{base}$
+    \Else
+        \State $R_i^{new} \leftarrow R_i^{base} \cdot (1 - c(1 - W_i))$
+               (Eq.~(\ref{eq:rate_control}))
+    \EndIf
+\EndFor
+
+\end{algorithmic}
+\end{algorithm}
+
+This adaptive mechanism ensures that the aggregate transmission 
+rate remains within the available bandwidth, thereby satisfying 
+the constraint defined in Eq.~(\ref{eq:bandwidth_constraint}). 
+By proactively regulating message rates, the system effectively 
+prevents queue overflow and reduces packet loss during heavy 
+traffic conditions \cite{khan2020mlnetwork}.
+
+%-------------------------------------------------------------
+\section{Message Transmission Simulation}
+
+The overall Packet Delivery 
+Ratio (PDR) of the system is computed as:
+
+\begin{equation}
+\text{PDR} = \frac{\text{Total Packets Delivered}}{\text{Total Packets Generated}} \times 100\%
+\label{eq:pdr}
+\end{equation}
+
+The simulation environment models the following network parameters:
+
+\begin{itemize}
+\item Message generation rate
+\item Network bandwidth
+\item Transmission delay
+\item Packet loss conditions
+\end{itemize}
+
+
+
+The system records performance parameters such as packet delivery 
+success rate, average delay, and throughput. These performance 
+values are later used to evaluate system efficiency and compare 
+against the FIFO baseline in the results chapter.
+%-------------------------------------------------------------
+
+
+
+
+
+
+
+\section{System Integration}
+
+All modules developed during implementation are integrated 
+to form a complete communication management system.
+
+The integrated workflow includes:
+
+\begin{itemize}
+
+\item Message generation
+
+\item Feature extraction
+
+\item Priority classification
+
+\item Congestion monitoring
+
+\item Rate adjustment
+
+\item Queue scheduling
+
+\item Message transmission
+
+\end{itemize}
+
+System integration ensures smooth interaction between 
+individual modules and enables complete system 
+functionality.
+
+\section{Closed-Loop RL Scheduling and Aggregation Implementation}
+
+The scheduling and aggregation extension is implemented as a two-stage 
+feedback loop. One component acts as the decision layer and selects an 
+action from the learned Q-table; the second component acts as the 
+environment layer and simulates the effect of that action on the current 
+traffic state.
+
+The combined action has two parts:
+
+\begin{itemize}
+\item \textbf{Scheduling choice}: select which priority queue is served next
+\item \textbf{Aggregation choice}: select how many packets are bundled before transmission
+\end{itemize}
+
+The implementation follows the structure below:
+
+\begin{algorithm}[H]
+\caption{Closed-Loop RL Scheduling and Aggregation Execution}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Current network state $s_t$, learned Q-table $Q$
+\State \textbf{Output:} Applied action $a_t$ and updated state $s_{t+1}$
+\State Observe current queue, channel, and loss context
+\State Encode the state into the learned representation
+\State Select action $a_t = \arg\max_a Q(s_t, a)$
+\State Decode $a_t$ into scheduling class and aggregation level
+\State Apply the action to the communication simulator
+\State Measure delivered bytes, attempted bytes, and loss ratio
+\State Generate the next state $s_{t+1}$ from the updated traffic snapshot
+\State Feed $s_{t+1}$ back to the policy for the next decision
+\end{algorithmic}
+\end{algorithm}
+
+This implementation is intentionally lightweight so that the policy can 
+be evaluated quickly on recorded traffic traces while still preserving the 
+closed-loop control structure of the deployed system.
+
+The policy layer is responsible only for choosing the joint action. The 
+environment layer handles packet transmission, loss accounting, and the 
+construction of the next state. This separation keeps the code modular and 
+makes it easier to compare different trained checkpoints using the same 
+simulation pipeline.
+
+\subsection{RL Training Procedure}
+
+The tabular Q-learning policy is trained offline on finite traffic episodes
+before being reused for evaluation. Training begins with an initially empty
+Q-table, and the agent explores the action space using an $\epsilon$-greedy
+strategy to balance exploration and exploitation.
+
+The training configuration used in this project is summarized below:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|l|c|p{6.2cm}|}
+\hline
+\textbf{Parameter} & \textbf{Value} & \textbf{Purpose} \\ \hline
+Learning rate $\alpha$ & 0.10 & Controls how strongly each new reward update changes the Q-value \\ \hline
+Discount factor $\gamma$ & 0.95 & Gives high weight to future returns and long-term queue stability \\ \hline
+Exploration rate $\epsilon$ & 0.20 & Forces limited random exploration during early training \\ \hline
+Number of episodes & 50 & Total offline training passes over the traffic traces \\ \hline
+Episode length & Up to 500 steps & One step per scheduling decision on the replayed trace \\ \hline
+Convergence behavior & 10--20 episodes & Empirical range in which the policy begins to stabilize \\ \hline
+\end{tabular}
+\caption{Tabular Q-Learning Training Configuration}
+\label{tab:rl_training_config}
+\end{table}
+
+For each transition $(s_t,a_t,r_t,s_{t+1})$, the Q-value is updated using the
+rule in Eq.~(\ref{eq:q_learning_update}). The learning rate controls how
+quickly new observations override prior estimates, while the discount factor
+captures the value of future returns. The exploration rate is reduced over
+episodes so that the learned policy becomes more stable after the early
+training phase.
+
+In this project, one episode corresponds to one complete replay of a recorded
+traffic trace. The environment returns a new state after every scheduling
+decision, and the episode ends when the trace is exhausted or all queued
+packets for that segment have been processed. This setup provides a clear
+training definition without requiring live integration into the network
+stack.
+
+The NS-3 component is used as the traffic-generation source for the recorded
+traces rather than as a fully coupled online simulator. As a result, the
+implementation uses NS-3 outputs for reproducible replay while the policy
+itself is trained and evaluated in the closed-loop trace-driven pipeline.
+
+\subsection{NS-3 Dataset Generation Procedure}
+
+The NS-3 simulator is used to generate trace files that serve as input to the
+offline RL training and evaluation pipeline. The generator creates a two-node
+UAV-to-ground communication setup, replays traffic at fixed time steps, and
+logs one CSV row per step with queue, channel, mobility, energy, and delivery
+features.
+
+For the publication-oriented dataset set, the same generator is executed under
+multiple predefined scenarios with different arrival rates, burst patterns,
+mobility settings, propagation losses, and energy budgets. Each scenario is run
+with its own seed so that the resulting traces remain reproducible while still
+covering diverse network conditions.
+
+\begin{algorithm}[H]
+\caption{NS-3 Trace-Driven Dataset Generation}
+\begin{algorithmic}[1]
+\State \textbf{Input:} Scenario parameters, random seed, number of rows, step interval, output path
+\State \textbf{Output:} CSV trace containing queue, link, energy, and aggregation features
+\State Initialize a two-node network: UAV sender and ground receiver
+\State Configure mobility, Wi-Fi channel, propagation loss, and energy models
+\State Install a packet sink on the receiver and connect RX/SNR trace callbacks
+\State Create the sender application and open the CSV output file
+\For{each simulation step until the requested number of rows is reached}
+    \State Sample new packet arrivals using a Poisson process with occasional burst arrivals
+    \State Generate packet size, priority class, and deadline for each queued packet
+    \State Decrease packet deadlines and drop expired packets
+    \State Observe queue length, current goodput, SNR, mobility distance, and energy level
+    \State Select the highest-priority packet available for transmission
+    \If{queue size is large and bandwidth or SNR is below threshold}
+        \State Aggregate multiple packets and transmit the combined payload
+    \Else
+        \State Transmit the selected packet without aggregation
+    \EndIf
+    \State Record packet loss ratio, link stability, AoI, and aggregation flags in the CSV row
+\EndFor
+\State Stop the simulator and close the trace file
+\end{algorithmic}
+\end{algorithm}
+
+For the nine-scenario publication set, the outer execution loop repeats this
+procedure across the scenario list and assigns a distinct seed to each run.
+The helper script collects all CSV files into a timestamped output directory and
+writes a manifest that records the scenario, seed, row count, and file path.
+
+%-------------------------------------------------------------
+
+\section{Testing and Validation}
+
+After implementation, the system is tested under 
+different traffic conditions to verify its performance using the Dataset.
+
+Validation parameters include:
+
+\begin{itemize}
+
+\item Packet Loss Rate
+
+\item Message Delivery Ratio
+
+\item Average Transmission Delay
+
+\item Throughput
+
+\end{itemize}
+
+The collected performance data is analyzed to ensure 
+that the proposed system improves communication 
+efficiency compared to traditional fixed-rate 
+communication methods.
+
+%-------------------------------------------------------------
+
+\section{Summary}
+
+This chapter presented the implementation details of 
+the proposed Machine Learning-based message 
+prioritization and congestion-aware rate control 
+system. The implementation included dataset preparation, 
+Machine Learning model training, congestion monitoring, 
+adaptive rate control, priority-based scheduling, and the 
+closed-loop reinforcement learning execution flow for joint 
+scheduling and aggregation.
+
+The developed system provides a complete framework for 
+intelligent communication management in UAV networks. 
+The performance of the implemented system is evaluated 
+in the next chapter using simulation results and 
+performance metrics.

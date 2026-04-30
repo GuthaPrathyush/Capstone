@@ -1,0 +1,105 @@
+\chapter{INTRODUCTION TO THE PROJECT}
+
+\section{Background of the Project}
+
+Unmanned Aerial Vehicles (UAVs) have become an essential technology 
+in modern communication and monitoring systems. They are widely used 
+in applications such as surveillance, disaster management, environmental 
+monitoring, agriculture, and search-and-rescue operations 
+\cite{ghamari2022unmanned,mohsan2023unmanned}. 
+In many real-world missions, multiple UAVs operate together to perform 
+coordinated tasks. These UAVs communicate through wireless networks 
+known as UAV Ad Hoc Networks (UAANETs) \cite{rovira2022review,nawaz2021uav}.
+
+Communication between UAVs and Ground Control Stations is commonly 
+achieved using the MAVLink protocol. MAVLink is a lightweight 
+communication protocol designed for transmitting telemetry data, 
+navigation commands, and control messages \cite{koubaa2019micro}. 
+Although MAVLink is efficient and widely adopted, it relies on fixed 
+transmission rates that do not adapt to changing network conditions 
+\cite{cordill2025comprehensive}.
+
+As the number of UAVs increases, communication traffic also increases. 
+This leads to network congestion, packet loss, and increased 
+transmission delays \cite{anwekar2023analysis}. 
+Loss of critical messages such as control commands may affect mission 
+safety and reliability. Therefore, improving communication efficiency 
+and reliability in UAV networks is an important research problem 
+\cite{verma2024adaptive}.
+
+To address these challenges, this project proposes a Machine 
+Learning-based message prioritization and congestion-aware rate 
+control system. The proposed system uses the Random Forest 
+algorithm to classify MAVLink messages into priority levels. 
+Based on congestion levels, transmission rates are adjusted 
+dynamically to reduce packet loss and improve communication 
+reliability.
+
+The final framework extends this idea by adding reinforcement 
+learning-based scheduling and aggregation on top of the ML-based 
+prioritization and congestion control layers. The learned policy 
+selects which queue to serve and how many packets to aggregate in 
+each transmission cycle, making the communication process adaptive 
+to both traffic urgency and channel conditions.
+
+\section{Objectives and Contributions}
+
+The main objectives of this project are to:
+
+\begin{itemize}
+	\item classify MAVLink messages according to operational priority using a Machine Learning model,
+	\item regulate transmission rates based on congestion conditions,
+	\item jointly optimize message scheduling and packet aggregation using a learned reinforcement learning policy,
+	\item maintain backward compatibility with the MAVLink protocol, and
+	\item evaluate the combined framework against a paper-style baseline using throughput and packet-loss metrics.
+\end{itemize}
+
+The major contributions are:
+
+\begin{enumerate}
+	\item a semantic message prioritization module based on Random Forest classification,
+	\item a heuristic congestion-aware rate control mechanism,
+	\item a closed-loop RL-based scheduling and aggregation module,
+	\item scenario-wise comparison against the chosen baseline paper, and
+	\item a lightweight implementation suitable for edge-style UAV communication settings.
+\end{enumerate}
+
+\section{Organization of the Paper}
+
+The rest of the paper is organized as follows. Chapter 2 reviews the 
+related work and identifies the baseline paper used for comparison. 
+Chapter 3 presents the design and mathematical formulation of the 
+proposed framework. Chapter 4 describes the implementation details, 
+including the ML model and RL training setup. Chapter 5 discusses the 
+experimental results and the comparison with the baseline. Chapter 6 
+concludes the work and outlines future research directions.
+
+\section{Problem Statement}
+
+In MAVLink-based UAV communication systems, multiple types of 
+messages such as command messages, telemetry data, navigation 
+updates, and sensor information are transmitted simultaneously 
+\cite{koubaa2019micro}. These messages are usually transmitted 
+at fixed rates without considering current network conditions.
+
+When the incoming message rate exceeds the available network 
+bandwidth, packets accumulate in transmission queues. If the 
+queue capacity is exceeded, packets are dropped, resulting in 
+increased packet loss and reduced Quality of Service (QoS) 
+\cite{anwekar2023analysis}. This problem becomes more critical 
+when high-priority messages are delayed or lost.
+
+Existing communication systems mainly rely on simple scheduling 
+techniques and static transmission rates, which are not suitable 
+for highly dynamic UAV environments \cite{li2018prioritizing,
+halder2022dynamic}. There is a lack of intelligent systems that 
+can dynamically adjust message transmission rates based on 
+congestion and message importance \cite{verma2024adaptive}.
+
+Therefore, there is a need to develop an adaptive communication 
+system that can prioritize important messages using Machine 
+Learning techniques and regulate transmission rates based on 
+congestion levels. The proposed project addresses this challenge 
+by integrating Random Forest-based message classification with 
+congestion-aware rate control to improve overall communication 
+performance in UAV networks.

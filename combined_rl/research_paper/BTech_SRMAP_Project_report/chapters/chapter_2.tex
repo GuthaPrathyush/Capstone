@@ -1,0 +1,24 @@
+\chapter{MOTIVATION}
+
+\section{Motivation behind the work}
+
+Unmanned Aerial Vehicle (UAV) communication systems have gained significant importance due to their wide range of real-world applications such as surveillance, disaster management, environmental monitoring, and military operations. These applications require reliable and real-time communication between UAVs and ground control stations. However, maintaining efficient communication in such dynamic environments remains a major challenge.
+
+One of the primary motivations for this work arises from the limitations of existing MAVLink-based communication systems. MAVLink operates using fixed message transmission rates, which do not adapt to varying network conditions. As the number of UAVs increases or when multiple message streams are generated simultaneously, the network becomes congested, leading to packet loss, increased latency, and reduced Quality of Service (QoS). This directly affects mission-critical operations where timely delivery of control messages is essential.
+
+Another key motivation is the heterogeneous nature of UAV communication data. Different types of messages such as control commands, telemetry data, navigation updates, and sensor information have different levels of importance and urgency. Existing systems often treat all messages equally, without considering their priority. This can result in critical messages being delayed or dropped during congestion, which may compromise mission safety and system reliability.
+
+With the rapid advancements in Machine Learning (ML), there is an opportunity to introduce intelligent decision-making into UAV communication systems. Machine Learning techniques can be used to classify messages based on their importance and dynamically adapt transmission behavior. This provides a smarter approach compared to traditional static methods.
+
+Furthermore, efficient utilization of limited bandwidth is another important motivation. UAV networks operate under constrained wireless environments, where bandwidth is limited and shared among multiple nodes. Without proper traffic management, bandwidth is wasted on redundant or low-priority messages, reducing overall system efficiency.
+
+Therefore, this project is motivated by the need to develop an intelligent, adaptive, and efficient communication mechanism that can:
+\begin{itemize}
+    \item Reduce network congestion and packet loss
+    \item Prioritize critical messages over non-critical ones
+    \item Dynamically adjust transmission rates based on network conditions
+    \item Improve overall Quality of Service (QoS)
+    \item Enhance reliability of UAV communication systems
+\end{itemize}
+
+The proposed Machine Learning-based message prioritization and congestion-aware rate control system aims to address these challenges and provide a robust solution for next-generation UAV communication networks.

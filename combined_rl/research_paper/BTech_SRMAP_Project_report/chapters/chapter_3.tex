@@ -1,0 +1,168 @@
+\chapter{LITERATURE REVIEW}
+
+\section{Introduction}
+
+Unmanned Aerial Vehicle (UAV) communication systems have attracted
+significant research attention due to their wide range of applications
+in surveillance, disaster monitoring, environmental analysis,
+agriculture, and military operations. Reliable communication between
+UAVs and ground stations plays a crucial role in ensuring successful
+mission execution. However, UAV communication networks face multiple
+challenges such as limited bandwidth, packet loss, dynamic topology,
+and communication delays.
+
+Several researchers have proposed various solutions to improve UAV
+communication efficiency. These include routing optimization,
+congestion control techniques, message scheduling algorithms,
+priority-based transmission, and machine learning-based communication
+strategies. This chapter presents a detailed review of the existing
+research work related to UAV communication systems, MAVLink protocol,
+congestion control, scheduling methods, and intelligent communication
+mechanisms.
+
+
+\section{Review of Existing Work}
+
+UAV communication networks are generally implemented using Flying
+Ad Hoc Networks (FANETs) or UAV Ad Hoc Networks (UAANETs). These
+networks consist of multiple UAV nodes communicating wirelessly
+without fixed infrastructure\cite{gupta2016surveyuav}
+presented a comprehensive survey on UAV communication networks and
+highlighted major challenges such as bandwidth limitation, routing
+instability, and communication reliability\cite{bekmezci2013flying} introduced the concept of Flying
+Ad Hoc Networks (FANETs) and discussed their unique features
+including high mobility, dynamic topology, and intermittent
+connectivity.
+
+Mozaffari et al.~\cite{mozaffari2019tutorial} provided a detailed tutorial on UAV communication systems and emphasized challenges
+such as interference management, delay control, and energy
+efficiency. Nawaz et al.~\cite{nawaz2021uav} further identified
+network congestion and packet loss as significant problems affecting
+UAV communication performance.
+
+The MAVLink protocol is widely used for communication between UAVs
+and Ground Control Stations. Koubaa et al.~\cite{koubaa2019micro}
+provided a comprehensive survey of MAVLink protocol architecture
+and message formats. Their study showed that MAVLink uses static
+message transmission rates, which may lead to inefficient bandwidth
+utilization under heavy traffic conditions. Cordill et
+al.~\cite{cordill2025comprehensive} analyzed security challenges
+in UAV systems and reported that communication overload increases
+system vulnerability.
+
+Routing techniques also play a significant role in maintaining
+reliable UAV communication. Perkins~\cite{perkins1999adhoc}
+introduced the concept of Ad Hoc networking and routing methods
+for dynamic communication systems. Clausen and
+Jacquet~\cite{clausen2003olsr} proposed the Optimized Link State
+Routing (OLSR) protocol to improve route reliability in mobile
+networks. Fotouhi et al.~\cite{fotouhi2019survey} presented a
+survey on UAV cellular communication systems and discussed
+challenges related to interference and resource allocation.
+
+Congestion control mechanisms are widely used to improve network
+performance and reduce packet loss. Li et al.~\cite{li2020congestion}
+presented a comprehensive survey on congestion control techniques
+used in wireless networks. Anwekar and
+Phulre~\cite{anwekar2023analysis} studied congestion issues in
+FANETs and reported that uncontrolled traffic significantly
+increases packet loss and communication delay. Verma et
+al.~\cite{verma2024adaptive} proposed an adaptive congestion
+control technique that dynamically adjusts transmission rates
+based on network conditions.
+
+Message scheduling and prioritization techniques have also been
+widely studied. Li et al.~\cite{li2018prioritizing} proposed a
+prioritization-based message scheduling method to ensure timely
+delivery of critical messages in UAV networks. Halder et
+al.~\cite{halder2022dynamic} introduced a distributed task
+scheduling technique that improves coordination among UAV nodes.
+Yang et al.~\cite{yang2025intelligent} developed an intelligent
+queue scheduling mechanism that enhances communication efficiency
+by managing packet transmission order based on priority levels.
+
+Machine learning techniques are increasingly used in UAV
+communication systems to improve performance and adaptability.
+Breiman~\cite{breiman2001randomforest} introduced the Random
+Forest algorithm, which is widely used for classification
+problems due to its robustness and accuracy. Khan et
+al.~\cite{khan2020mlnetwork} reviewed machine learning-based
+congestion control techniques and highlighted their potential
+in improving network efficiency. Gupta et
+al.~\cite{gupta2021mlrouting} applied machine learning methods
+for routing optimization and demonstrated improved communication
+performance in UAV networks.
+
+\subsection{Chosen Baseline Paper for Scheduling and Aggregation}
+
+For the scheduling and aggregation component of this project, the
+most relevant free-access baseline paper is Nguyen et al.~\cite{nguyen2024acs},
+``Adaptive Clustering and Scheduling for UAV-Enabled Data Aggregation.''
+This paper is important because it focuses directly on UAV scheduling,
+clustering, and data aggregation, which are the same design themes used
+in the combined reinforcement learning model developed in this project.
+
+The paper proposes an adaptive scheduling framework for UAV-enabled data
+collection and aggregation. However, it does not integrate MAVLink message
+prioritization, congestion-aware transmission control, and joint RL-based
+scheduling/aggregation in a closed-loop execution pipeline. That gap makes
+it a strong but incomplete baseline for the present work.
+
+\begin{table}[h]
+\centering
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|p{3.1cm}|p{5.6cm}|p{5.6cm}|}
+\hline
+\textbf{Aspect} & \textbf{Baseline Paper: Nguyen et al. (2024)} & \textbf{Our Proposed Combined Model} \\ \hline
+Focus & Adaptive clustering, scheduling, and data aggregation & MAVLink prioritization, congestion control, RL scheduling, and aggregation \\ \hline
+Decision Method & Rule-based / heuristic scheduling & Learned Q-table policy with closed-loop feedback \\ \hline
+Message Awareness & General UAV data aggregation & Message semantic priority from Random Forest classification \\ \hline
+Congestion Handling & Scheduling adapts to collection context & Explicit congestion-aware rate control and queue feedback \\ \hline
+Deployment Style & Single optimization layer & Two-stage closed-loop architecture with policy and simulation services \\ \hline
+\end{tabular}%
+}
+\caption{Comparison Between the Chosen Baseline Paper and the Proposed Combined Model}
+\label{table:baseline_comparison}
+\end{table}
+
+This baseline is therefore used as the main literature anchor for the
+scheduling and aggregation contribution, while the proposed model extends
+it by adding message-level prioritization and reinforcement learning-driven
+joint control.
+
+
+\section{Research Gaps Identified}
+
+Based on the literature review, several research gaps have been
+identified in existing UAV communication systems.
+
+Most existing UAV communication systems rely on static transmission
+rates, which do not adapt to varying network conditions. This leads
+to inefficient bandwidth utilization and increased packet loss
+during congestion. Although routing techniques improve path
+selection, they do not address message rate control at the
+application level.
+
+Many scheduling techniques prioritize messages based on predefined
+rules but do not dynamically regulate transmission rates according
+to network congestion levels. Similarly, several congestion control
+methods treat all messages equally without considering the
+importance of individual messages.
+
+Machine learning techniques have been applied in routing and
+network optimization; however, limited research integrates
+machine learning-based message classification with congestion-aware
+rate control mechanisms in MAVLink-based UAV communication systems.
+
+In addition, existing baseline work such as Nguyen et al.~\cite{nguyen2024acs}
+does not cover the combined closed-loop control strategy used in this project.
+The present work addresses this gap by integrating semantic message
+prioritization, adaptive rate control, and RL-based scheduling and aggregation
+within one framework.
+
+Therefore, there is a strong need to develop an intelligent
+communication framework that combines machine learning-based
+message prioritization with adaptive congestion-aware rate control
+to improve communication reliability and Quality of Service (QoS)
+in UAV networks.

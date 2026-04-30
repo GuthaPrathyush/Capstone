@@ -1,0 +1,147 @@
+\chapter{CONCLUSION AND FUTURE WORK}
+
+%-------------------------------------------------------------
+
+\section{Conclusion}
+
+In this project, a Machine Learning-based message 
+prioritization and congestion-aware rate control 
+system for UAV communication networks was proposed 
+and implemented. The main objective of the project 
+was to improve communication reliability and reduce 
+packet loss in MAVLink-based UAV networks operating 
+under dynamic network conditions.
+
+The proposed system integrates Random Forest-based 
+message classification with adaptive rate control 
+mechanisms. The Random Forest classifier was used 
+to assign priority levels to MAVLink messages based 
+on their importance and communication requirements. 
+High-priority messages such as emergency commands 
+and navigation updates were identified and given 
+transmission preference over low-priority messages.
+
+The final version of the project also extends the 
+communication pipeline with reinforcement learning-based 
+scheduling and packet aggregation. In this combined 
+framework, the learned policy jointly decides which 
+priority queue to serve and how aggressively to aggregate 
+packets before transmission. This makes the overall system 
+more adaptive than a fixed rule-based scheduler.
+
+The congestion-aware rate control mechanism was 
+designed to monitor network parameters such as 
+queue occupancy, packet loss ratio, and bandwidth 
+utilization. Based on congestion levels, the system 
+dynamically adjusted transmission rates to reduce 
+network overload. Priority-based queue scheduling 
+was used to ensure timely delivery of critical 
+messages.
+
+The closed-loop execution structure created for the 
+combined model links the policy layer and the simulation 
+layer in a feedback cycle: the current state is observed, 
+an action is selected, the action is applied, and the next 
+state is generated from the resulting traffic condition. 
+This loop is what allows the project to evaluate different 
+trained checkpoints against the same baseline conditions.
+
+The implementation of the proposed system was 
+successfully carried out using Python programming 
+and machine learning libraries. Simulation results 
+demonstrated that the proposed approach significantly 
+improves network performance compared to traditional 
+fixed-rate communication systems.
+
+The major achievements of the project include:
+
+\begin{itemize}
+
+\item Successful implementation of Random Forest-based 
+message prioritization.
+
+\item Effective congestion detection and adaptive 
+rate control.
+
+\item Joint scheduling and aggregation using a learned 
+reinforcement learning policy.
+
+\item Reduction in packet loss under varying 
+traffic conditions.
+
+\item Improvement in throughput and communication 
+reliability while staying close to the paper baseline 
+in the best-performing RL checkpoint.
+
+\item Reduction in transmission delay for 
+high-priority messages.
+
+\end{itemize}
+
+Overall, the proposed system enhances the Quality 
+of Service (QoS) of UAV communication networks 
+and improves the reliability of MAVLink-based 
+message transmission.
+
+
+%-------------------------------------------------------------
+
+\section{Future Work}
+
+Although the proposed system provides significant 
+improvements in communication efficiency, there 
+are several areas where further enhancements can 
+be made in future research.
+
+Possible future improvements include:
+
+\begin{itemize}
+
+\item Implementation of the proposed system in 
+real UAV hardware environments to validate 
+performance under real-world conditions.
+
+\item Extension of the closed-loop RL policy to 
+multi-UAV cooperative scheduling and aggregation.
+
+\item Integration of advanced Machine Learning 
+techniques such as Deep Learning models for 
+more accurate message classification.
+
+\item Development of energy-efficient communication 
+strategies to reduce power consumption in UAV 
+networks.
+
+\item Extension of the system to support large-scale 
+multi-UAV networks with higher node density.
+
+\item Incorporation of security mechanisms to 
+protect communication from cyber threats and 
+unauthorized access.
+
+\item Implementation of adaptive routing protocols 
+combined with congestion control for improved 
+network scalability.
+
+\item Online adaptation of the learned policy so that 
+the scheduler can refresh its decisions when traffic 
+patterns drift over time.
+
+\end{itemize}
+
+Future developments in intelligent communication 
+systems and Machine Learning techniques are 
+expected to further enhance UAV communication 
+efficiency and reliability.
+
+%-------------------------------------------------------------
+
+\section{Summary}
+
+This chapter presented the overall conclusion 
+of the project and highlighted the key outcomes 
+achieved through the implementation of the 
+proposed system. The future work section 
+outlined possible directions for further 
+improvements and research extensions in 
+UAV communication networks.

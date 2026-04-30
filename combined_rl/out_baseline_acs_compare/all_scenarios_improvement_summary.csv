@@ -1,0 +1,4 @@
+scenario,throughput_change_pct,packet_loss_change_pp
+Baseline Balanced,-100.0,-21.53619503688957
+Energy Constrained,-100.0,-63.97476775633882
+High Congestion,-100.0,-80.09658572625172

@@ -1,0 +1,7 @@
+scenario,policy,throughput_kbps,packet_loss_ratio
+Baseline Balanced,RL,0.0,0.0
+Baseline Balanced,Paper Baseline,759.0062,0.2153619503688957
+Energy Constrained,RL,0.0,0.0
+Energy Constrained,Paper Baseline,456.7302,0.6397476775633882
+High Congestion,RL,0.0,0.0
+High Congestion,Paper Baseline,305.3874,0.8009658572625172

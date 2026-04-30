@@ -114,3 +114,36 @@ curl -X POST "http://127.0.0.1:8002/run?steps=100"
 - The simulator owns the volatile queue state.
 - The CSV acts as the replay trace that drives each tick.
 - `run` simply loops over `step` internally.
+
+## Closed-Loop Approach (Developed in This Project)
+
+The backend is intentionally split into two services to implement a closed-loop
+control flow between observed network state and scheduling action.
+
+### Components
+
+- `qlearning_backend` hosts the trained policy (`/predict`) and returns an action
+  for the current state snapshot.
+- `sim_pinger_backend` is the environment runner that:
+  - reads one CSV row per tick,
+  - builds the current queue/channel state,
+  - pings the policy endpoint,
+  - applies the returned action to update queue dynamics,
+  - emits metrics for that step.
+
+### Closed-loop cycle per tick
+
+1. Simulator reads replay state from dataset row `t`.
+2. Simulator sends state payload to policy server (`POST /predict`).
+3. Policy server returns action (queue choice + aggregation decision).
+4. Simulator applies action using transmission model and updates queue state.
+5. Simulator advances to row `t+1` with updated internal state.
+
+This loop is executed once in `/step` and repeated `N` times in `/run?steps=N`.
+
+### Why this matters
+
+- Keeps model serving and environment simulation decoupled.
+- Mirrors deployment-style inference where policy and runtime are separate.
+- Makes it easy to swap model versions (`/reload`) without changing simulator code.
+- Enables reproducible, scenario-wise benchmarking with fixed replay traces.
